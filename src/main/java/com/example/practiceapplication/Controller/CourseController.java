@@ -1,6 +1,7 @@
 package com.example.practiceapplication.Controller;
 
 import com.example.practiceapplication.model.Course;
+import com.example.practiceapplication.model.User;
 import com.example.practiceapplication.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,10 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Course>> getAllCourses(){
-        List<Course> courses = courseService.findAllCourses();
+    @GetMapping("/{user}/all")
+    public ResponseEntity<List<Course>> getAllCourses(User user){
+       String email = user.getEmail();
+        List<Course> courses = courseService.findAllCourses(email);
         System.out.println("course/all requested");
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }

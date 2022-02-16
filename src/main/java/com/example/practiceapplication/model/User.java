@@ -1,16 +1,18 @@
 package com.example.practiceapplication.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 @Entity
 @Table(name="Users")
-public class User{
-
-    public User() {
-        this.enabled=false;
-    }
+public class User implements UserDetails{
 
     @Id
     @javax.persistence.Id
@@ -25,7 +27,7 @@ public class User{
     private String username;
 
     @Column(length = 30)
-    private String classRank;
+    private ClassRank classRank;
 
     @Column(length = 50)
     private String school;
@@ -40,7 +42,29 @@ public class User{
     private Boolean enabled;
 
     @Column
+    private UserRole userRole;
+
+    @Column
     private Date joinDate;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority((UserRole.name()));
+
+        return Collections.singletonList(authority);
+    }
+
+    public User(String username, String email, String password, UserRole role, String school, ClassRank classRank, Integer hoursCompleted) {
+        this.enabled=false;
+        this.username = username;
+        this.email=email;
+        this.password=password;
+        this.school = school;
+        this.classRank = classRank;
+        this.hoursCompleted = hoursCompleted;
+        this.userRole = role;
+
+    }
 
     public String getPassword() {
         return password;

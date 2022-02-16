@@ -22,8 +22,8 @@ public class CourseService {
         course.setOwnerEmail("anemail@gmail.com");//TODO pass logged in user's email here
         return courseRepo.save(course);
     }
-    public List<Course> findAllCourses(){
-        return courseRepo.findAll();
+    public List<Course> findAllCourses(String email){
+        return courseRepo.findCourseByOwnerEmail(email);
     }
 
     public Course updateCourse(Course course){

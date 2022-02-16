@@ -1,4 +1,4 @@
-package com.example.practiceapplication.Config;
+package com.example.practiceapplication.security.Config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
@@ -46,12 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").authenticated()
-                .anyRequest().permitAll()
-                .and()
+                .antMatchers("/signup")
+                .permitAll()
+                .anyRequest()
+                .authenticated().and()
                 .formLogin()
                 .usernameParameter("email")
-                .defaultSuccessUrl("/course/all")
+                .defaultSuccessUrl("/{user}/all")
                 .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();

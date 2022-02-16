@@ -1,41 +1,41 @@
-/*
+
 package com.example.practiceapplication.Controller;
 
 
+import com.example.practiceapplication.model.RegistrationRequest;
+import com.example.practiceapplication.service.RegistrationService;
+import com.example.practiceapplication.service.UserDetailsService;
 import com.example.practiceapplication.model.User;
 import com.example.practiceapplication.repo.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-public class LoginController {
-   */
-/* @Autowired
+@AllArgsConstructor
+@RequestMapping("/public")
+public class RegistrationController {
+
+@Autowired
     private UserRepository userRepo;
 
     @Autowired
-    private UserDetailsService detailsService;*//*
+    private UserDetailsService detailsService;
+
+    @Autowired
+    private RegistrationService registrationService;
 
 
-
-    @GetMapping("/login")
-    public String getLogin() {
-        return "login";
-    }
 
 
     @GetMapping("/signup")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user",new User());
-        return "signup";
+    public String register(@RequestBody RegistrationRequest request) {
+        return registrationService.register(request);
     }
 
     @PostMapping("/registered")
@@ -51,4 +51,4 @@ public class LoginController {
         return "registered";
     }
 
-}*/
+}
